@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>My Hacker Web</title>
+    <!-- Include FontAwesome CDN for icons -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
+    <style>
+        /* General reset */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Courier New', Courier, monospace;
+        }
+
+        body {
+            background-color: #121212;
+            color: #00FF41;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+            height: 100vh;
+            overflow: hidden;
+            margin: 0;
+            transition: background-color 0.3s, color 0.3s;
+        }
+
+        /* Console Simulation */
+        .console {
+            background-color: black;
+            width: 50%;
+            max-width: 800px;
+            height: 300px;
+            padding: 20px;
+            border: 2px solid #00FF41;
+            box-shadow: 0 0 10px rgba(0, 255, 65, 0.5);
+            overflow-y: auto;
+            margin-bottom: 20px;
+        }
+
+        .output {
+            white-space: pre-wrap;
+            word-wrap: break-word;
+            font-size: 1.2rem;
+        }
+
+        .input-line {
+            display: flex;
+        }
+
+        .input-line .prompt {
+            color: #ff007f;
+            margin-right: 10px;
+        }
+
+        .input-line input {
+            background-color: transparent;
+            border: none;
+            outline: none;
+            color: #00FF41;
+            font-size: 1.2rem;
+            width: 100%;
+        }
+
+        /* Dark Mode Toggle */
+        button {
+            background-color: #00FF41;
+            color: #121212;
+            font-size: 1.rem;
+            padding: 10px 20px;
+            border: none;
+            cursor: pointer;
+            transition: background-color 0.3s;
+            margin-top: 20px;
+        }
+
+        button:hover {
+            background-color: #ff007f;
+        }
+
+        /* Link Buttons Style */
+        .link-buttons {
+            display: flex;
+            gap: 20px;
+            margin-top: 20px;
+            display: none; /* Initially hidden */
+        }
+
+        .link-buttons a {
+            color: #00FF41;
+            font-size: 3rem;
+            text-decoration: none;
+            transition: transform 0.3s, color 0.3s;
+        }
+
+        .link-buttons a:hover {
+            transform: scale(1.2);
+            color: #ff007f;
+        }
+
+        .link-buttons a:active {
+            transform: scale(1);
+        }
+
+        .light-mode {
+            background-color: #f0f0f0;
+            color: #121212;
+        }
+
+        .light-mode button {
+            background-color: #121212;
+            color: #00FF41;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Console Simulation -->
+    <div class="console">
+        <div class="output" id="output"></div>
+        <div class="input-line">
+            <span class="prompt">C:\></span>
+            <input type="text" id="input" autofocus />
+        </div>
+    </div>
+
+    <!-- Link Buttons (Initially Hidden) -->
+    <div class="link-buttons" id="linkButtons">
+        <!-- Instagram Button -->
+        <a href="https://www.instagram.com" target="_blank" title="Instagram"><i class="fab fa-instagram"></i></a>
+
+        <!-- GitHub Button -->
+        <a href="https://github.com" target="_blank" title="GitHub"><i class="fab fa-github"></i></a>
+
+        <!-- Discord Button -->
+        <a href="https://discord.com" target="_blank" title="Discord"><i class="fab fa-discord"></i></a>
+    </div>
+
+    <!-- Dark Mode Toggle Button -->
+    <button id="toggle">Dark Mode</button>
+
+    <script>
+        // Function to simulate typing animation
+        function typeCommand(element, text, callback) {
+            let index = 0;
+
+            function type() {
+                if (index < text.length) {
+                    element.innerHTML += text[index];
+                    index++;
+                    setTimeout(type, 100); // Adjust typing speed here (100ms per character)
+                } else if (callback) {
+                    callback(); // Call the callback once typing is complete
+                }
+            }
+
+            type();
+        }
+
+        // Handle User Input in the Console
+        const inputElement = document.getElementById("input");
+        const outputElement = document.getElementById("output");
+
+        inputElement.addEventListener("keydown", function (event) {
+            if (event.key === "Enter") {
+                event.preventDefault();
+                let command = inputElement.value.trim();
+                inputElement.value = "";
+
+                // Show the user's command in the output
+                outputElement.innerHTML += `C:\\> ${command}\n`;
+
+                // Process the command
+                if (command === "Russo") {
+                    const accessingText = "Accessing...☠\n";
+                    const successText = "Success: connected!\nEnjoy\n";
+                    outputElement.innerHTML += ""; // Placeholder for typing
+
+                    // Simulate typing the accessing text
+                    typeCommand(outputElement, accessingText, () => {
+                        // Simulate typing the success text after accessing text is done
+                        typeCommand(outputElement, successText, () => {
+                            // Show buttons after text finishes typing
+                            document.getElementById("linkButtons").style.display = "flex";
+                        });
+                    });
+                } else {
+                    outputElement.innerHTML += "Unknown command. Type 'Russo' to proceed.\n";
+                }
+
+                // Scroll to the bottom to show the latest output
+                outputElement.scrollTop = outputElement.scrollHeight;
+            }
+        });
+
+        // Dark Mode Toggle Script
+        document.getElementById("toggle").addEventListener("click", function () {
+            document.body.classList.toggle("light-mode");
+        });
+    </script>
+</body>
+</html>
